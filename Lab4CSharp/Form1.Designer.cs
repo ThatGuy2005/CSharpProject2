@@ -34,18 +34,18 @@ namespace Lab4CSharp
             this.Refreash = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.addProduct = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.sell = new System.Windows.Forms.ToolStripMenuItem();
-            this.search = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewProductToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyProductQuantityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.productsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sell = new System.Windows.Forms.ToolStripMenuItem();
+            this.search = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.productIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.storeEntryDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.expirationDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.productsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).BeginInit();
@@ -59,6 +59,7 @@ namespace Lab4CSharp
             this.Refreash.TabIndex = 1;
             this.Refreash.Text = "Refreash";
             this.Refreash.UseVisualStyleBackColor = true;
+            this.Refreash.Click += new System.EventHandler(this.Refreash_Click);
             // 
             // menuStrip1
             // 
@@ -84,6 +85,31 @@ namespace Lab4CSharp
             this.addProduct.Text = "Add Product";
             this.addProduct.Click += new System.EventHandler(this.addProduct_Click);
             // 
+            // addNewProductToolStripMenuItem
+            // 
+            this.addNewProductToolStripMenuItem.Name = "addNewProductToolStripMenuItem";
+            this.addNewProductToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
+            this.addNewProductToolStripMenuItem.Text = "Add New Product";
+            this.addNewProductToolStripMenuItem.Click += new System.EventHandler(this.addNewProductToolStripMenuItem_Click);
+            // 
+            // modifyProductQuantityToolStripMenuItem
+            // 
+            this.modifyProductQuantityToolStripMenuItem.Name = "modifyProductQuantityToolStripMenuItem";
+            this.modifyProductQuantityToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
+            this.modifyProductQuantityToolStripMenuItem.Text = "Modify Product Quantity";
+            // 
+            // sell
+            // 
+            this.sell.Name = "sell";
+            this.sell.Size = new System.Drawing.Size(130, 29);
+            this.sell.Text = "Sell Products";
+            // 
+            // search
+            // 
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(155, 29);
+            this.search.Text = "Search Products";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AutoGenerateColumns = false;
@@ -101,35 +127,6 @@ namespace Lab4CSharp
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.Size = new System.Drawing.Size(969, 355);
             this.dataGridView1.TabIndex = 3;
-            // 
-            // sell
-            // 
-            this.sell.Name = "sell";
-            this.sell.Size = new System.Drawing.Size(130, 29);
-            this.sell.Text = "Sell Products";
-            // 
-            // search
-            // 
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(155, 29);
-            this.search.Text = "Search Products";
-            // 
-            // addNewProductToolStripMenuItem
-            // 
-            this.addNewProductToolStripMenuItem.Name = "addNewProductToolStripMenuItem";
-            this.addNewProductToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
-            this.addNewProductToolStripMenuItem.Text = "Add New Product";
-            this.addNewProductToolStripMenuItem.Click += new System.EventHandler(this.addNewProductToolStripMenuItem_Click);
-            // 
-            // modifyProductQuantityToolStripMenuItem
-            // 
-            this.modifyProductQuantityToolStripMenuItem.Name = "modifyProductQuantityToolStripMenuItem";
-            this.modifyProductQuantityToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
-            this.modifyProductQuantityToolStripMenuItem.Text = "Modify Product Quantity";
-            // 
-            // productsBindingSource
-            // 
-            this.productsBindingSource.DataSource = typeof(Lab4CSharp.Products);
             // 
             // productIDDataGridViewTextBoxColumn
             // 
@@ -178,6 +175,10 @@ namespace Lab4CSharp
             this.quantityDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
             this.quantityDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // productsBindingSource
+            // 
+            this.productsBindingSource.DataSource = typeof(Lab4CSharp.Products);
             // 
             // Form1
             // 

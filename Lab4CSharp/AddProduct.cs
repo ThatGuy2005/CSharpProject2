@@ -37,7 +37,7 @@ namespace Lab4CSharp
                     {
                         var product = new Products
                         {
-                            ProductID = int.Parse(productID.Text),
+                            //ProductID = int.Parse(productID.Text),
                             ProductName = productName.Text,
                             ProductDescription = productDescription.Text,
                             StoreEntryDate = arrivalDate.Value,
@@ -46,6 +46,7 @@ namespace Lab4CSharp
                         };
                         db.Products.Add(product);
                         await db.SaveChangesAsync();
+                        MessageBox.Show("Product added successfully!");
                     }
                     catch (FormatException)
                     {
