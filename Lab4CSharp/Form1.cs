@@ -16,5 +16,10 @@ namespace Lab4CSharp
         {
             InitializeComponent();
         }
+
+        private void addProduct_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

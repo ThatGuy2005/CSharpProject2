@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Lab4CSharp
 {
     [Table("Products")]
-    class Products
+    public class Products
     {
         [Key]
         public int ProductID { get; set; }
