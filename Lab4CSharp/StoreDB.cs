@@ -9,7 +9,7 @@ namespace Lab4CSharp
 {
     public class StoreDB : DbContext
     {
-        public StoreDB() : base(@"name=StoreDb") { }
+        public StoreDB() : base(@"name=StoreDB") { }
         public DbSet<Products> Products { get; set; }
     }
 }

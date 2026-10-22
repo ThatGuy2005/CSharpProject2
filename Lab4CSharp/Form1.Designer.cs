@@ -119,6 +119,7 @@ namespace Lab4CSharp
             this.addNewProductToolStripMenuItem.Name = "addNewProductToolStripMenuItem";
             this.addNewProductToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
             this.addNewProductToolStripMenuItem.Text = "Add New Product";
+            this.addNewProductToolStripMenuItem.Click += new System.EventHandler(this.addNewProductToolStripMenuItem_Click);
             // 
             // modifyProductQuantityToolStripMenuItem
             // 
@@ -216,6 +217,8 @@ namespace Lab4CSharp
         private DataGridViewTextBoxColumn expirationDateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
         private BindingSource productsBindingSource;
+
+        private AddProduct addProductForm;
     }
 }
 

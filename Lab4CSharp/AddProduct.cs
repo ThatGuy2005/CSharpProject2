@@ -26,5 +26,38 @@ namespace Lab4CSharp
         {
             this.Hide();
         }
+
+        private async void add_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new StoreDB())
+                {
+                    try
+                    {
+                        var product = new Products
+                        {
+                            ProductID = int.Parse(productID.Text),
+                            ProductName = productName.Text,
+                            ProductDescription = productDescription.Text,
+                            StoreEntryDate = arrivalDate.Value,
+                            ExpirationDate = expirationDate.Value,
+                            Quantity = int.Parse(quantity.Text)
+                        };
+                        db.Products.Add(product);
+                        await db.SaveChangesAsync();
+                    }
+                    catch (FormatException)
+                    {
+                        MessageBox.Show("Invalid input format. Please check your entries.");
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while adding the product: {ex.Message}");
+            }
+        }
     }
 }

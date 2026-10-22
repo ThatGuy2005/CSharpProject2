@@ -40,6 +40,8 @@
             this.expirationDate = new System.Windows.Forms.DateTimePicker();
             this.add = new System.Windows.Forms.Button();
             this.quit = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.productID = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // productName
@@ -136,6 +138,7 @@
             this.add.TabIndex = 12;
             this.add.Text = "Add Product";
             this.add.UseVisualStyleBackColor = true;
+            this.add.Click += new System.EventHandler(this.add_Click);
             // 
             // quit
             // 
@@ -147,11 +150,29 @@
             this.quit.UseVisualStyleBackColor = true;
             this.quit.Click += new System.EventHandler(this.quit_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(102, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 20);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Product ID:";
+            // 
+            // productID
+            // 
+            this.productID.Location = new System.Drawing.Point(294, 2);
+            this.productID.Name = "productID";
+            this.productID.Size = new System.Drawing.Size(219, 26);
+            this.productID.TabIndex = 15;
+            // 
             // AddProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.productID);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.quit);
             this.Controls.Add(this.add);
             this.Controls.Add(this.expirationDate);
@@ -185,5 +206,7 @@
         private System.Windows.Forms.DateTimePicker expirationDate;
         private System.Windows.Forms.Button add;
         private System.Windows.Forms.Button quit;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox productID;
     }
 }
