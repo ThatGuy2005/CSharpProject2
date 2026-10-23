@@ -97,6 +97,7 @@ namespace Lab4CSharp
             this.modifyProductQuantityToolStripMenuItem.Name = "modifyProductQuantityToolStripMenuItem";
             this.modifyProductQuantityToolStripMenuItem.Size = new System.Drawing.Size(311, 34);
             this.modifyProductQuantityToolStripMenuItem.Text = "Modify Product Quantity";
+            this.modifyProductQuantityToolStripMenuItem.Click += new System.EventHandler(this.modifyProductQuantityToolStripMenuItem_Click);
             // 
             // sell
             // 
@@ -127,6 +128,7 @@ namespace Lab4CSharp
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.Size = new System.Drawing.Size(969, 355);
             this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // productIDDataGridViewTextBoxColumn
             // 
@@ -218,8 +220,8 @@ namespace Lab4CSharp
         private DataGridViewTextBoxColumn expirationDateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
         private BindingSource productsBindingSource;
-
         private AddProduct addProductForm;
+        private ModifyProduct modifyProductForm;
     }
 }
 

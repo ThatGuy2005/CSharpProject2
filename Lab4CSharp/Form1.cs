@@ -16,9 +16,12 @@ namespace Lab4CSharp
         public Form1()
         {
             InitializeComponent();
+            _db = new StoreDB();
             addProductForm = new AddProduct();
             addProductForm.Hide();
-            _db = new StoreDB();
+            modifyProductForm = new ModifyProduct(_db);
+            modifyProductForm.Hide();
+            
         }
         protected override async void OnLoad(EventArgs e)
         {
@@ -56,6 +59,16 @@ namespace Lab4CSharp
         private async void Refreash_Click(object sender, EventArgs e)
         {
             await _db.Products.LoadAsync();
+        }
+
+        private void modifyProductQuantityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            modifyProductForm.Show();
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
