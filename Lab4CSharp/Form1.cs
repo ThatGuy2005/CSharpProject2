@@ -16,6 +16,7 @@ namespace Lab4CSharp
         public Form1()
         {
             InitializeComponent();
+
             _db = new StoreDB();
             addProductForm = new AddProduct();
             addProductForm.Hide();
@@ -23,28 +24,39 @@ namespace Lab4CSharp
             modifyProductForm.Hide();
             
         }
-        protected override async void OnLoad(EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            await LoadProductsAsync();
+            LoadProductsAsync();
         }
-        private async Task LoadProductsAsync()
+        private void LoadProductsAsync()
         {
-            UseWaitCursor = true;
-            try
+            UseWaitCursor = true;   // UI thread
+
+            Task.Run(() =>
             {
-                await Task.Run(() => _db.Database.Initialize(force: false));
-                await _db.Products.LoadAsync();
-                dataGridView1.DataSource = _db.Products.Local.ToBindingList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.GetBaseException().Message, "Could not load products");
-            }
-            finally
-            {
-                UseWaitCursor = false;
-            }
+                string error = null;
+                try
+                {
+                    _db.Database.Initialize(force: false);   // opens connection, builds model
+                    _db.Products.Load();                     // loads rows into _db.Products.Local
+                }
+                catch (Exception ex)
+                {
+                    error = ex.GetBaseException().Message;
+                }
+
+                // Notify the GUI thread with the result
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    if (error != null)
+                        MessageBox.Show(error, "Could not load products");
+                    else
+                        dataGridView1.DataSource = _db.Products.Local.ToBindingList();
+
+                    UseWaitCursor = false;
+                }));
+            });
         }
         private void addProduct_Click(object sender, EventArgs e)
         {
@@ -53,25 +65,34 @@ namespace Lab4CSharp
 
         private void addNewProductToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addProductForm.Show();
+            using (var form = new AddProduct())
+                form.ShowDialog();
+            LoadProductsAsync();
         }
 
-        private async void Refreash_Click(object sender, EventArgs e)
+        private  void Refreash_Click(object sender, EventArgs e)
         {
-            await _db.Products.LoadAsync();
+            LoadProductsAsync();
         }
 
         private void modifyProductQuantityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            modifyProductForm.Show();
+            using (var form = new ModifyProduct(_db))
+                form.ShowDialog();
+            LoadProductsAsync();
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            int row = e.RowIndex;
-            int productIdentifier = Convert.ToInt32(dataGridView1.Rows[row].Cells[0].Value);
-            sellForm = new SellForm(_db, productIdentifier);
-            sellForm.Show();
+            if (e.RowIndex < 0) return;   // header row
+
+            var value = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+            if (value == null) return;    // empty "new row" at the bottom
+
+            int productIdentifier = Convert.ToInt32(value);
+            using (var form = new SellForm(_db, productIdentifier))
+                form.ShowDialog();
+            LoadProductsAsync();
         }
 
         private void sell_Click(object sender, EventArgs e)

@@ -96,5 +96,6 @@
 
         private StoreDB _db;
         private Products _product;
+        private int productIdentifier;
     }
 }

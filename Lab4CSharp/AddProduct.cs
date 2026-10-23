@@ -27,7 +27,7 @@ namespace Lab4CSharp
             this.Hide();
         }
 
-        private async void add_Click(object sender, EventArgs e)
+        private void add_Click(object sender, EventArgs e)
         {
             try
             {
@@ -35,6 +35,7 @@ namespace Lab4CSharp
                 {
                     try
                     {
+                        
                         var product = new Products
                         {
                             //ProductID = int.Parse(productID.Text),
@@ -44,9 +45,31 @@ namespace Lab4CSharp
                             ExpirationDate = expirationDate.Value,
                             Quantity = int.Parse(quantity.Text)
                         };
-                        db.Products.Add(product);
-                        await db.SaveChangesAsync();
-                        MessageBox.Show("Product added successfully!");
+                        add.Enabled = false;
+                        Task.Run(() =>
+                        {
+                            string result;
+                            try
+                            {
+                                   db.Products.Add(product);
+                                   db.SaveChanges();
+                                
+                                result = "Product added successfully!";
+                            }
+                            catch (Exception ex)
+                            {
+                                result = "An error occurred while adding the product: " + ex.Message;
+                            }
+
+                            // 3. Notify the GUI thread with the result
+                            this.Invoke((MethodInvoker)(() =>
+                            {
+                                if(result != "")
+                                MessageBox.Show(result);
+                                add.Enabled = true;
+                            }));
+                        });
+                        
                     }
                     catch (FormatException)
                     {

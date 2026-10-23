@@ -25,26 +25,45 @@ namespace Lab4CSharp
 
         private void update_Click(object sender, EventArgs e)
         {
-            int quantity = int.Parse(addQuantity.Text);
-            if(quantity < 0)
+            int quantity = 0;
+            int productId = 0;
+            try
             {
+                quantity = int.Parse(addQuantity.Text);
+                productId = int.Parse(productIdentifier.Text);
+            } catch(FormatException except)
+            {
+                MessageBox.Show("Invalid arguments!");
+                return;
+            }
+            if(quantity < 0)
+            {   
                 MessageBox.Show("Quantity cannot be negative.");
                 return;
             }
-            int productId = int.Parse(productIdentifier.Text);
-            var product = _db.Products.Find(productId);
-            if (product != null)
+            Task.Run(() =>
             {
-                product.Quantity += quantity;
-                _db.Entry(product).State = System.Data.Entity.EntityState.Modified;
-                _db.SaveChanges();
-                MessageBox.Show("Product updated successfully.");
-            }
-            else
-            {
-                MessageBox.Show("Product not found.");
-            }
-            
+                var product = _db.Products.Find(productId);
+                string result = "";
+                if (product != null)
+                {
+                    product.Quantity += quantity;
+                    _db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                    _db.SaveChanges();
+                    result = "Product updated successfully.";
+
+                }
+                else
+                {
+                    result = "Product not found.";
+                }
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    if(result != "")
+                    MessageBox.Show(result);
+                    update.Enabled = true;
+                }));
+            });
         }
     }
 }
