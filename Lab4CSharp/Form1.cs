@@ -99,5 +99,55 @@ namespace Lab4CSharp
         {
             
         }
+
+        private void filterInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string text = filterInput.Text.Trim();
+            string propertyName = selectedColumn >= 0
+            ? dataGridView1.Columns[selectedColumn].DataPropertyName
+            : null;
+
+            
+            Task.Run(() =>
+            {
+                List<Products> result = new List<Products>();
+                using (var db = new StoreDB())
+                {
+                    var prop = propertyName != null ? typeof(Products).GetProperty(propertyName) : null;
+                    if (string.IsNullOrEmpty(text) || propertyName == null)
+                    {
+                        result = db.Products.ToList();
+
+                    }
+                    else
+                    {
+
+                        result = db.Products
+                            .AsEnumerable()
+                            .Where(p =>
+                            {
+                                object value = prop.GetValue(p);
+                                return value != null &&
+                                       value.ToString().IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0;
+                            })
+                            .ToList();
+                    }
+                }
+
+                if (IsDisposed) return;
+
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    dataGridView1.DataSource = result;
+                }));
+            });
+
+            
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedColumn = e.ColumnIndex;
+        }
     }
 }
