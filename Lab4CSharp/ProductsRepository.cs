@@ -16,7 +16,18 @@ namespace Lab4CSharp
         {
             if(!File.Exists("StoreDatabase.db"))
             {
-                SQLiteConnection.CreateFile("StoreDatabase.db");
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        SQLiteConnection.CreateFile("StoreDatabase.db");
+                    }
+                    catch (SQLiteException e)
+                    {
+                        Trace.WriteLine(DateTime.Now + ": " + e.Message);
+                    }
+                });
+                
             }
         }
 
@@ -40,6 +51,26 @@ namespace Lab4CSharp
                 catch (SQLiteException e)
                 {
                     Trace.WriteLine(DateTime.Now + ": " + e.Message);
+                }
+            });
+        }
+
+        public void AddProduct(string productName,
+            DateTime storeEntryDate, DateTime expirationDate,
+            int quantity, int categoryID)
+        {
+            string query = "INSERT INTO Products (ProductName,StoreEntryDate,ExpirationDate,Quantity,CategoryID) VALUES" +
+                "(@Name,@Entry,@Expiration,@Quant,@Category)";
+            Task.Run(() =>
+            {
+                using (var cmd = new SQLiteCommand(query, _conn))
+                {
+                    cmd.Parameters.AddWithValue("@Name", productName);
+                    cmd.Parameters.AddWithValue("@Entry", storeEntryDate);
+                    cmd.Parameters.AddWithValue("@Expiration", expirationDate);
+                    cmd.Parameters.AddWithValue("@Quant", quantity);
+                    cmd.Parameters.AddWithValue("@Category", categoryID);
+                    cmd.ExecuteNonQuery();
                 }
             });
         }
