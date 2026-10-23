@@ -68,7 +68,15 @@ namespace Lab4CSharp
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            int row = e.RowIndex;
+            int productIdentifier = Convert.ToInt32(dataGridView1.Rows[row].Cells[0].Value);
+            sellForm = new SellForm(_db, productIdentifier);
+            sellForm.Show();
+        }
 
+        private void sell_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

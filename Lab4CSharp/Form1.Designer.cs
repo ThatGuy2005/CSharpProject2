@@ -104,6 +104,7 @@ namespace Lab4CSharp
             this.sell.Name = "sell";
             this.sell.Size = new System.Drawing.Size(130, 29);
             this.sell.Text = "Sell Products";
+            this.sell.Click += new System.EventHandler(this.sell_Click);
             // 
             // search
             // 
@@ -222,6 +223,7 @@ namespace Lab4CSharp
         private BindingSource productsBindingSource;
         private AddProduct addProductForm;
         private ModifyProduct modifyProductForm;
+        private SellForm sellForm;
     }
 }
 
