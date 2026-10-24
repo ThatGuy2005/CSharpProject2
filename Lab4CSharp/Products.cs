@@ -20,5 +20,7 @@ namespace Lab4CSharp
         public DateTime StoreEntryDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public int Quantity { get; set; }
+        [Required]
+        public int CategoryID { get; set; }
     }
 }
