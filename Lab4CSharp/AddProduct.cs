@@ -12,7 +12,7 @@ namespace Lab4CSharp
 {
     public partial class AddProduct : Form
     {
-        private ProductsRepository _products = new ProductsRepository();
+        private ProductsEFRepository _products = new ProductsEFRepository();
         public AddProduct()
         {
             InitializeComponent();

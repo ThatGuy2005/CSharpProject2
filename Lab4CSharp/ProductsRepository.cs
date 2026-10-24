@@ -155,7 +155,7 @@ namespace Lab4CSharp
                         p.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
                         p.Quantity = Convert.ToInt32(reader["Quantity"]);
                         p.CategoryID = Convert.ToInt32(reader["CategoryID"]);
-                        p.CategoryName = Convert.ToString(reader["CategoryName"]);
+                        
                         products.Add(p);
                     }
                 }

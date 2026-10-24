@@ -22,6 +22,7 @@ namespace Lab4CSharp
             using (var db = new StoreDB())
             {
                 List<IstoricVanzari> sales = db.IstoricVanzari.ToList();
+                List<CategorieProdus> categories = db.CategoriiProduse.ToList();
 
                 var result = new List<VanzareAfisata>();
                 foreach (IstoricVanzari sale in sales)
@@ -29,10 +30,11 @@ namespace Lab4CSharp
                     Products product = products.FirstOrDefault(p => p.ProductID == sale.IdProdus);
                     if (product != null)
                     {
+                        CategorieProdus category = categories.FirstOrDefault(c => c.Id == product.CategoryID);
                         result.Add(new VanzareAfisata
                         {
                             Produs = product.ProductName,
-                            Categorie = product.CategoryName,
+                            Categorie = category != null ? category.Denumire : "",
                             Cantitate = sale.Cantitate
                         });
                     }

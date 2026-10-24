@@ -12,10 +12,13 @@ namespace Lab4CSharp
 {
     public partial class ModifyProduct : Form
     {
+        private ProductsEFRepository _products = new ProductsEFRepository();
         public ModifyProduct(StoreDB db)
         {
             InitializeComponent();
+            
             _db = db;
+            LoadCategories();
         }
 
         private void quit_Click(object sender, EventArgs e)
@@ -23,43 +26,60 @@ namespace Lab4CSharp
             this.Hide();
         }
 
+        public void LoadCategories()
+        {
+            categories.Items.Clear();
+            categories.DisplayMember = "Denumire";
+
+            categories.Items.Add("(keep current category)");   // index 0 = no change
+            foreach (var cat in new CategoriesRepository().GetAll())
+            {
+                categories.Items.Add(cat);
+            }
+            categories.SelectedIndex = 0;
+        }
+
         private void update_Click(object sender, EventArgs e)
         {
-            int quantity = 0;
-            int productId = 0;
-            try
-            {
-                quantity = int.Parse(addQuantity.Text);
-                productId = int.Parse(productIdentifier.Text);
-            } catch(FormatException except)
+            int productId;
+            int quantity;
+            if (!int.TryParse(productIdentifier.Text, out productId) ||
+                !int.TryParse(addQuantity.Text, out quantity))
             {
                 MessageBox.Show("Invalid arguments!");
                 return;
             }
-            if(quantity < 0)
-            {   
+
+            if (quantity < 0)
+            {
                 MessageBox.Show("Quantity cannot be negative.");
                 return;
             }
+
+            // 0 means "keep the current category"
+            int categoryId = 0;
+            if (categories.SelectedIndex > 0)
+                categoryId = ((CategorieProdus)categories.SelectedItem).Id;
+
+            update.Enabled = false;
             Task.Run(() =>
             {
-                var product = _db.Products.Find(productId);
-                string result = "";
-                if (product != null)
+                string result;
+                try
                 {
-                    product.Quantity += quantity;
-                    _db.Entry(product).State = System.Data.Entity.EntityState.Modified;
-                    _db.SaveChanges();
-                    result = "Product updated successfully.";
+                    if (_products.UpdateProduct(productId, quantity, categoryId))
+                        result = "Product updated successfully.";
+                    else
+                        result = "Product not found.";
+                }
+                catch (Exception ex)
+                {
+                    result = "An error occurred: " + ex.Message;
+                }
 
-                }
-                else
-                {
-                    result = "Product not found.";
-                }
+                // 3. Back to the GUI thread
                 this.Invoke((MethodInvoker)(() =>
                 {
-                    if(result != "")
                     MessageBox.Show(result);
                     update.Enabled = true;
                 }));

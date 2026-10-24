@@ -102,6 +102,7 @@
       <DependentUpon>ModifyProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Products.cs" />
+    <Compile Include="ProductsEFRepository.cs" />
     <Compile Include="ProductsRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
