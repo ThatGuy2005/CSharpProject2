@@ -68,6 +68,7 @@
       <DependentUpon>AddProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Categories.cs" />
+    <Compile Include="CategoriesRepository.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
