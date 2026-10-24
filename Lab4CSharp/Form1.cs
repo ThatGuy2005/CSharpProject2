@@ -20,7 +20,7 @@ namespace Lab4CSharp
             _db = new StoreDB();
             addProductForm = new AddProduct();
             addProductForm.Hide();
-            modifyProductForm = new ModifyProduct(_db);
+            modifyProductForm = new ModifyProduct();
             modifyProductForm.Hide();
             
         }
@@ -31,29 +31,32 @@ namespace Lab4CSharp
         }
         private void LoadProductsAsync()
         {
-            UseWaitCursor = true;   // UI thread
+            UseWaitCursor = true;
+            _db.Dispose();
+            _db = new StoreDB();   // old context would keep old quantities
 
             Task.Run(() =>
             {
                 string error = null;
                 try
                 {
-                    _db.Database.Initialize(force: false);   // opens connection, builds model
-                    _db.Products.Load();                     // loads rows into _db.Products.Local
+                    _db.Products.Load();
+                    _db.CategoriiProduse.Load();
                 }
                 catch (Exception ex)
                 {
                     error = ex.GetBaseException().Message;
                 }
 
-                // Notify the GUI thread with the result
                 this.Invoke((MethodInvoker)(() =>
                 {
                     if (error != null)
                         MessageBox.Show(error, "Could not load products");
                     else
+                    {
                         dataGridView1.DataSource = _db.Products.Local.ToBindingList();
-
+                        dataGridView2.DataSource = _db.CategoriiProduse.Local.ToBindingList();
+                    }
                     UseWaitCursor = false;
                 }));
             });
@@ -77,7 +80,7 @@ namespace Lab4CSharp
 
         private void modifyProductQuantityToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var form = new ModifyProduct(_db))
+            using (var form = new ModifyProduct())
                 form.ShowDialog();
             LoadProductsAsync();
         }
@@ -98,6 +101,19 @@ namespace Lab4CSharp
         private void sell_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void categoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new CategoriesForm())
+                form.ShowDialog();
+            LoadProductsAsync();
+        }
+
+        private void salesHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new SalesHistoryForm())
+                form.ShowDialog();
         }
 
         private void filterInput_KeyPress(object sender, KeyPressEventArgs e)
@@ -148,6 +164,11 @@ namespace Lab4CSharp
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             selectedColumn = e.ColumnIndex;
+        }
+
+        private void categories_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

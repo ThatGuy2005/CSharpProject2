@@ -42,19 +42,12 @@ namespace Lab4CSharp
             using (var db = new StoreDB())
             {
                 CategorieProdus categorie = db.CategoriiProduse.Find(id);
-                if (categorie == null)
+                if (categorie == null || db.Products.Any(p => p.CategoryID == id))
                     return false;
 
                 db.CategoriiProduse.Remove(categorie);
-                try
-                {
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (DbUpdateException)
-                {
-                    return false;
-                }
+                db.SaveChanges();
+                return true;
             }
         }
     }

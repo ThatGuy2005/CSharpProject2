@@ -13,14 +13,15 @@ namespace Lab4CSharp
     public partial class ModifyProduct : Form
     {
         private ProductsEFRepository _products = new ProductsEFRepository();
-        public ModifyProduct(StoreDB db)
+        public ModifyProduct()
         {
             InitializeComponent();
-            
-            _db = db;
             LoadCategories();
         }
-
+        public ModifyProduct(int productID) : this()
+        {
+            productIdentifier.Text = productID.ToString();
+        }
         private void quit_Click(object sender, EventArgs e)
         {
             this.Hide();

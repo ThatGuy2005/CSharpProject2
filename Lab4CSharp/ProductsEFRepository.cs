@@ -43,5 +43,55 @@ namespace Lab4CSharp
                 return true;
             }
         }
+
+        public List<ProdusAfisat> GetProducts(int categoryID = 0)
+        {
+            using (var db = new StoreDB())
+            {
+                var query = from p in db.Products
+                            join c in db.CategoriiProduse on p.CategoryID equals c.Id
+                            where categoryID == 0 || p.CategoryID == categoryID
+                            select new ProdusAfisat
+                            {
+                                ProductID = p.ProductID,
+                                ProductName = p.ProductName,
+                                ProductDescription = p.ProductDescription,
+                                StoreEntryDate = p.StoreEntryDate,
+                                ExpirationDate = p.ExpirationDate,
+                                Quantity = p.Quantity,
+                                CategoryID = p.CategoryID,
+                                CategoryName = c.Denumire
+                            };
+
+                return query.ToList();
+            }
+        }
+
+        public Products GetProduct(int productID)
+        {
+            using (var db = new StoreDB())
+            {
+                return db.Products.Find(productID);
+            }
+        }
+
+        // Selling: takes the items out of stock AND writes the sale into IstoricVanzari.
+        // Both changes are saved by the same SaveChanges, so either both happen or neither.
+        // Returns false if the product doesn't exist or there isn't enough stock.
+        public bool SellProduct(int productID, int quantity)
+        {
+            using (var db = new StoreDB())
+            {
+                Products product = db.Products.Find(productID);
+                if (product == null || quantity <= 0 || product.Quantity < quantity)
+                    return false;
+
+                product.Quantity -= quantity;
+                db.IstoricVanzari.Add(new IstoricVanzari { IdProdus = productID, Cantitate = quantity });
+
+                db.SaveChanges();
+                return true;
+            }
+        }
     }
 }

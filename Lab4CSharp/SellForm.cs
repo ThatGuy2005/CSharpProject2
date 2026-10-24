@@ -78,32 +78,31 @@ namespace Lab4CSharp
                 MessageBox.Show("Select a quantity.");
                 return;
             }
+            int sold = (int)comboBox1.SelectedItem;
             string result = "";
             sell.Enabled = false;
-            _product.Quantity -= (int)comboBox1.SelectedItem;
-            Task.Run(() => {
-                if (_product.Quantity == 0)
-                {
-                    _db.Products.Remove(_product);
-                } else
-                {
-                    _db.Entry(_product).State = System.Data.Entity.EntityState.Modified;
-                }
+            _product.Quantity -= sold;
+
+            Task.Run(() =>
+            {
+                _db.Entry(_product).State = System.Data.Entity.EntityState.Modified;
+                _db.IstoricVanzari.Add(new IstoricVanzari { IdProdus = _product.ProductID, Cantitate = sold });
                 try
                 {
                     _db.SaveChanges();
                     result = "Product(s) sold!";
-                } catch (Exception ex){
-                    _product.Quantity += (int)comboBox1.SelectedItem;
+                }
+                catch (Exception ex)
+                {
+                    _product.Quantity += sold;
                     result = ex.Message;
                 }
-                this.Invoke((MethodInvoker)(() => {
-                    if(result != "")
-                        MessageBox.Show(result);
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    MessageBox.Show(result);
                     sell.Enabled = true;
                 }));
             });
-            
         }
     }
 }

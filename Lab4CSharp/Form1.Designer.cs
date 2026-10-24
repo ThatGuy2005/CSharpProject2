@@ -39,6 +39,13 @@ namespace Lab4CSharp
             this.sell = new System.Windows.Forms.ToolStripMenuItem();
             this.search = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.filterInput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.denumireDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.categorieProdusBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.productIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,18 +53,12 @@ namespace Lab4CSharp
             this.expirationDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.filterInput = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.categorieProdusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.denumireDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label2 = new System.Windows.Forms.Label();
+            this.categories = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieProdusBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // Refreash
@@ -77,7 +78,8 @@ namespace Lab4CSharp
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addProduct,
             this.sell,
-            this.search});
+            this.search,
+            this.categories});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1512, 33);
@@ -141,6 +143,67 @@ namespace Lab4CSharp
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
+            // filterInput
+            // 
+            this.filterInput.Location = new System.Drawing.Point(423, 407);
+            this.filterInput.Name = "filterInput";
+            this.filterInput.Size = new System.Drawing.Size(238, 26);
+            this.filterInput.TabIndex = 5;
+            this.filterInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filterInput_KeyPress);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 410);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(405, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Select a attribute in the grid and enter data to search by:";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AutoGenerateColumns = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.idDataGridViewTextBoxColumn,
+            this.denumireDataGridViewTextBoxColumn});
+            this.dataGridView2.DataSource = this.categorieProdusBindingSource;
+            this.dataGridView2.Location = new System.Drawing.Point(27, 516);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidth = 62;
+            this.dataGridView2.RowTemplate.Height = 28;
+            this.dataGridView2.Size = new System.Drawing.Size(365, 205);
+            this.dataGridView2.TabIndex = 7;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(140, 483);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(132, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Product Category";
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // denumireDataGridViewTextBoxColumn
+            // 
+            this.denumireDataGridViewTextBoxColumn.DataPropertyName = "Denumire";
+            this.denumireDataGridViewTextBoxColumn.HeaderText = "Denumire";
+            this.denumireDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.denumireDataGridViewTextBoxColumn.Name = "denumireDataGridViewTextBoxColumn";
+            this.denumireDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // categorieProdusBindingSource
+            // 
+            this.categorieProdusBindingSource.DataSource = typeof(Lab4CSharp.CategorieProdus);
+            // 
             // productIDDataGridViewTextBoxColumn
             // 
             this.productIDDataGridViewTextBoxColumn.DataPropertyName = "ProductID";
@@ -193,66 +256,12 @@ namespace Lab4CSharp
             // 
             this.productsBindingSource.DataSource = typeof(Lab4CSharp.Products);
             // 
-            // filterInput
+            // categories
             // 
-            this.filterInput.Location = new System.Drawing.Point(423, 407);
-            this.filterInput.Name = "filterInput";
-            this.filterInput.Size = new System.Drawing.Size(238, 26);
-            this.filterInput.TabIndex = 5;
-            this.filterInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filterInput_KeyPress);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 410);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(405, 20);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Select a attribute in the grid and enter data to search by:";
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AutoGenerateColumns = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.denumireDataGridViewTextBoxColumn});
-            this.dataGridView2.DataSource = this.categorieProdusBindingSource;
-            this.dataGridView2.Location = new System.Drawing.Point(27, 516);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 62;
-            this.dataGridView2.RowTemplate.Height = 28;
-            this.dataGridView2.Size = new System.Drawing.Size(365, 205);
-            this.dataGridView2.TabIndex = 7;
-            // 
-            // categorieProdusBindingSource
-            // 
-            this.categorieProdusBindingSource.DataSource = typeof(Lab4CSharp.CategorieProdus);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // denumireDataGridViewTextBoxColumn
-            // 
-            this.denumireDataGridViewTextBoxColumn.DataPropertyName = "Denumire";
-            this.denumireDataGridViewTextBoxColumn.HeaderText = "Denumire";
-            this.denumireDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.denumireDataGridViewTextBoxColumn.Name = "denumireDataGridViewTextBoxColumn";
-            this.denumireDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(140, 483);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Product Category";
+            this.categories.Name = "categories";
+            this.categories.Size = new System.Drawing.Size(112, 29);
+            this.categories.Text = "Categories";
+            this.categories.Click += new System.EventHandler(this.categoriesToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -272,9 +281,9 @@ namespace Lab4CSharp
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.categorieProdusBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,6 +319,7 @@ namespace Lab4CSharp
         private DataGridViewTextBoxColumn denumireDataGridViewTextBoxColumn;
         private BindingSource categorieProdusBindingSource;
         private Label label2;
+        private ToolStripMenuItem categories;
     }
 }
 

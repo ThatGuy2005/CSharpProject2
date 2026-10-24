@@ -24,7 +24,7 @@ namespace Lab4CSharp
             var catRepo = new CategoriesRepository();
             foreach (var cat in catRepo.GetAll())
             {
-                categories.Items.Add(cat.Denumire);
+                categories.Items.Add(cat);   // shows Denumire through ToString()
             }
         }
 

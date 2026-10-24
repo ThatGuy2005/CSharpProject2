@@ -34,6 +34,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.productIdentifier = new System.Windows.Forms.TextBox();
             this.addQuantity = new System.Windows.Forms.TextBox();
+            this.categories = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // update
@@ -88,11 +90,30 @@
             this.addQuantity.Size = new System.Drawing.Size(145, 26);
             this.addQuantity.TabIndex = 5;
             // 
+            // categories
+            // 
+            this.categories.FormattingEnabled = true;
+            this.categories.Location = new System.Drawing.Point(178, 169);
+            this.categories.Name = "categories";
+            this.categories.Size = new System.Drawing.Size(145, 28);
+            this.categories.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(63, 177);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 20);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Category:";
+            // 
             // ModifyProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(501, 334);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.categories);
             this.Controls.Add(this.addQuantity);
             this.Controls.Add(this.productIdentifier);
             this.Controls.Add(this.label2);
@@ -115,5 +136,7 @@
         private System.Windows.Forms.TextBox productIdentifier;
         private System.Windows.Forms.TextBox addQuantity;
         private StoreDB _db;
+        private System.Windows.Forms.ComboBox categories;
+        private System.Windows.Forms.Label label3;
     }
 }
