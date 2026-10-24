@@ -29,5 +29,18 @@ namespace Lab4CSharp
                 this.Invoke((MethodInvoker)(() => salesGrid.DataSource = sales));
             });
         }
+
+        private void SalesHistoryForm_Load_1(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                List<Products> products;
+                using (var db = new StoreDB())
+                    products = db.Products.ToList();
+
+                var sales = new SalesRepository().GetSales(products);
+                this.Invoke((MethodInvoker)(() => salesGrid.DataSource = sales));
+            });
+        }
     }
 }

@@ -36,10 +36,11 @@ namespace Lab4CSharp
             this.addProduct = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewProductToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyProductQuantityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sell = new System.Windows.Forms.ToolStripMenuItem();
-            this.search = new System.Windows.Forms.ToolStripMenuItem();
             this.categories = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.filterInput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.salesHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.productIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,10 +48,7 @@ namespace Lab4CSharp
             this.expirationDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.filterInput = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.categorieProdusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.salesHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.productsBindingSource)).BeginInit();
@@ -73,13 +71,11 @@ namespace Lab4CSharp
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addProduct,
-            this.sell,
-            this.search,
             this.categories,
             this.salesHistory});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(992, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(992, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -107,19 +103,6 @@ namespace Lab4CSharp
             this.modifyProductQuantityToolStripMenuItem.Text = "Modify Product Quantity";
             this.modifyProductQuantityToolStripMenuItem.Click += new System.EventHandler(this.modifyProductQuantityToolStripMenuItem_Click);
             // 
-            // sell
-            // 
-            this.sell.Name = "sell";
-            this.sell.Size = new System.Drawing.Size(130, 29);
-            this.sell.Text = "Sell Products";
-            this.sell.Click += new System.EventHandler(this.sell_Click);
-            // 
-            // search
-            // 
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(155, 29);
-            this.search.Text = "Search Products";
-            // 
             // categories
             // 
             this.categories.Name = "categories";
@@ -146,6 +129,30 @@ namespace Lab4CSharp
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            // 
+            // filterInput
+            // 
+            this.filterInput.Location = new System.Drawing.Point(423, 407);
+            this.filterInput.Name = "filterInput";
+            this.filterInput.Size = new System.Drawing.Size(238, 26);
+            this.filterInput.TabIndex = 5;
+            this.filterInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filterInput_KeyPress);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 410);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(405, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Select a attribute in the grid and enter data to search by:";
+            // 
+            // salesHistory
+            // 
+            this.salesHistory.Name = "salesHistory";
+            this.salesHistory.Size = new System.Drawing.Size(119, 29);
+            this.salesHistory.Text = "Sale history";
+            this.salesHistory.Click += new System.EventHandler(this.salesHistory_Click);
             // 
             // productIDDataGridViewTextBoxColumn
             // 
@@ -199,33 +206,9 @@ namespace Lab4CSharp
             // 
             this.productsBindingSource.DataSource = typeof(Lab4CSharp.Products);
             // 
-            // filterInput
-            // 
-            this.filterInput.Location = new System.Drawing.Point(423, 407);
-            this.filterInput.Name = "filterInput";
-            this.filterInput.Size = new System.Drawing.Size(238, 26);
-            this.filterInput.TabIndex = 5;
-            this.filterInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filterInput_KeyPress);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 410);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(405, 20);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Select a attribute in the grid and enter data to search by:";
-            // 
             // categorieProdusBindingSource
             // 
             this.categorieProdusBindingSource.DataSource = typeof(Lab4CSharp.CategorieProdus);
-            // 
-            // salesHistory
-            // 
-            this.salesHistory.Name = "salesHistory";
-            this.salesHistory.Size = new System.Drawing.Size(119, 29);
-            this.salesHistory.Text = "Sale history";
-            this.salesHistory.Click += new System.EventHandler(this.salesHistory_Click);
             // 
             // Form1
             // 
@@ -257,8 +240,6 @@ namespace Lab4CSharp
         private System.Windows.Forms.DataGridView dataGridView1;
         private StoreDB _db;
         private BindingSource _bs = new BindingSource();
-        private ToolStripMenuItem sell;
-        private ToolStripMenuItem search;
         private ToolStripMenuItem addNewProductToolStripMenuItem;
         private ToolStripMenuItem modifyProductQuantityToolStripMenuItem;
         private DataGridViewTextBoxColumn productIDDataGridViewTextBoxColumn;

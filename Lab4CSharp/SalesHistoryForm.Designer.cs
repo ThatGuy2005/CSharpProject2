@@ -50,6 +50,7 @@
             this.Controls.Add(this.salesGrid);
             this.Name = "SalesHistoryForm";
             this.Text = "SalesHistoryForm";
+            this.Load += new System.EventHandler(this.SalesHistoryForm_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.salesGrid)).EndInit();
             this.ResumeLayout(false);
 
