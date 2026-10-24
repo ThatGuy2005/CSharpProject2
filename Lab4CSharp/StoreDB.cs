@@ -11,5 +11,7 @@ namespace Lab4CSharp
     {
         public StoreDB() : base(@"name=StoreDB") { }
         public DbSet<Products> Products { get; set; }
+        public DbSet<CategorieProdus> CategoriiProduse { get; set; }
+        public DbSet<IstoricVanzari> IstoricVanzari { get; set; }
     }
 }
