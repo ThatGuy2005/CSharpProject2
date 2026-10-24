@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="Lab4CSharp/Lab4CSharp.csproj" Id="4a30ecde-4d97-4f2d-b021-4e537b059723" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Lab4CSharp/Lab4CSharp.csproj" Id="4a30ecde-4d97-4f2d-b021-4e537b059723">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
 </Solution>

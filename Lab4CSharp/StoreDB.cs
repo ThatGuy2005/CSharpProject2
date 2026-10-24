@@ -9,7 +9,10 @@ namespace Lab4CSharp
 {
     public class StoreDB : DbContext
     {
-        public StoreDB() : base(@"name=StoreDB") { }
+        public StoreDB() : base(@"name=StoreDB") 
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<StoreDB>());
+        }
         public DbSet<Products> Products { get; set; }
         public DbSet<CategorieProdus> CategoriiProduse { get; set; }
         public DbSet<IstoricVanzari> IstoricVanzari { get; set; }

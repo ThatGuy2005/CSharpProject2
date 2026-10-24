@@ -22,5 +22,7 @@ namespace Lab4CSharp
         public int Quantity { get; set; }
         [Required]
         public int CategoryID { get; set; }
+        [Required]
+        public string CategoryName { get; set; }
     }
 }

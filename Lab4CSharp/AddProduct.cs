@@ -12,9 +12,20 @@ namespace Lab4CSharp
 {
     public partial class AddProduct : Form
     {
+        private ProductsRepository _products = new ProductsRepository();
         public AddProduct()
         {
             InitializeComponent();
+            InitializeCategoryOptions();
+        }
+
+        private void InitializeCategoryOptions()
+        {
+            var catRepo = new CategoriesRepository();
+            foreach (var cat in catRepo.GetAll())
+            {
+                categories.Items.Add(cat.Denumire);
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -29,59 +40,56 @@ namespace Lab4CSharp
 
         private void add_Click(object sender, EventArgs e)
         {
-            try
+            if (string.IsNullOrWhiteSpace(productName.Text))
             {
-                using (var db = new StoreDB())
-                {
-                    try
-                    {
-                        
-                        var product = new Products
-                        {
-                            //ProductID = int.Parse(productID.Text),
-                            ProductName = productName.Text,
-                            ProductDescription = productDescription.Text,
-                            StoreEntryDate = arrivalDate.Value,
-                            ExpirationDate = expirationDate.Value,
-                            Quantity = int.Parse(quantity.Text)
-                        };
-                        add.Enabled = false;
-                        Task.Run(() =>
-                        {
-                            string result;
-                            try
-                            {
-                                   db.Products.Add(product);
-                                   db.SaveChanges();
-                                
-                                result = "Product added successfully!";
-                            }
-                            catch (Exception ex)
-                            {
-                                result = "An error occurred while adding the product: " + ex.Message;
-                            }
+                MessageBox.Show("Please enter a product name.");
+                return;
+            }
 
-                            // 3. Notify the GUI thread with the result
-                            this.Invoke((MethodInvoker)(() =>
-                            {
-                                if(result != "")
-                                MessageBox.Show(result);
-                                add.Enabled = true;
-                            }));
-                        });
-                        
-                    }
-                    catch (FormatException)
-                    {
-                        MessageBox.Show("Invalid input format. Please check your entries.");
-                        return;
-                    }
-                }
-            }
-            catch (Exception ex)
+            int qty;
+            if (!int.TryParse(quantity.Text, out qty) || qty < 0)
             {
-                MessageBox.Show($"An error occurred while adding the product: {ex.Message}");
+                MessageBox.Show("Quantity must be a positive whole number.");
+                return;
             }
+
+            if (categories.SelectedItem == null)
+            {
+                MessageBox.Show("Please choose a category.");
+                return;
+            }
+
+            //  Read everything from the controls here, on the GUI thread
+            //    (controls must not be touched from inside Task.Run)
+            string name = productName.Text;
+            string description = productDescription.Text;
+            DateTime entry = arrivalDate.Value;
+            DateTime expiration = expirationDate.Value;
+            int categoryId = ((CategorieProdus)categories.SelectedItem).Id;
+
+            add.Enabled = false;
+
+            //  Database work on a background thread
+            Task.Run(() =>
+            {
+                string result;
+                try
+                {
+                    _products.AddProduct(name, description, entry, expiration, qty, categoryId);
+                    result = "Product added successfully!";
+                }
+                catch (Exception ex)
+                {
+                    result = "An error occurred while adding the product: " + ex.Message;
+                }
+
+                // Back to the GUI thread to show the result
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    MessageBox.Show(result);
+                    add.Enabled = true;
+                }));
+            });
         }
     }
 }

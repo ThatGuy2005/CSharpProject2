@@ -46,7 +46,8 @@ namespace Lab4CSharp
                 "StoreEntryDate DATETIME NOT NULL, " +
                 "ExpirationDate DATETIME NOT NULL, " +
                 "Quantity INTEGER NOT NULL, " +
-                "CategoryID INTEGER NOT NULL REFERENCES CategoriiProduse(Id))";
+                "CategoryID INTEGER NOT NULL REFERENCES CategoriiProduse(Id))," +
+                "CategoryNaem TEXT NOT NULL";
             try
             {
                 using (SQLiteCommand cmd = new SQLiteCommand(query, _conn))
@@ -154,6 +155,7 @@ namespace Lab4CSharp
                         p.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
                         p.Quantity = Convert.ToInt32(reader["Quantity"]);
                         p.CategoryID = Convert.ToInt32(reader["CategoryID"]);
+                        p.CategoryName = Convert.ToString(reader["CategoryName"]);
                         products.Add(p);
                     }
                 }
