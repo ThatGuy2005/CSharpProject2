@@ -77,5 +77,25 @@ namespace Lab4CSharp
                 }));
             });
         }
+
+        private void add_Click_1(object sender, EventArgs e)
+        {
+            add_Click(sender, e);
+        }
+
+        private void rename_Click_1(object sender, EventArgs e)
+        {
+            rename_Click(sender, e);
+        }
+
+        private void delete_Click_1(object sender, EventArgs e)
+        {
+            delete_Click(sender, e);
+        }
+
+        private void CategoriesForm_Load_1(object sender, EventArgs e)
+        {
+            LoadCategories();
+        }
     }
 }

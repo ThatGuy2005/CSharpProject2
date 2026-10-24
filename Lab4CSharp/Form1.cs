@@ -13,16 +13,20 @@ namespace Lab4CSharp
 {
     public partial class Form1 : Form
     {
+        private ProductsEFRepository _products = new ProductsEFRepository();
         public Form1()
         {
             InitializeComponent();
+
+            dataGridView1.Columns.Clear();              // remove the old Products columns
+            dataGridView1.AutoGenerateColumns = true;   // build columns from ProdusAfisat
 
             _db = new StoreDB();
             addProductForm = new AddProduct();
             addProductForm.Hide();
             modifyProductForm = new ModifyProduct();
             modifyProductForm.Hide();
-            
+
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -32,16 +36,14 @@ namespace Lab4CSharp
         private void LoadProductsAsync()
         {
             UseWaitCursor = true;
-            _db.Dispose();
-            _db = new StoreDB();   // old context would keep old quantities
 
             Task.Run(() =>
             {
+                List<ProdusAfisat> products = null;
                 string error = null;
                 try
                 {
-                    _db.Products.Load();
-                    _db.CategoriiProduse.Load();
+                    products = _products.GetProducts();
                 }
                 catch (Exception ex)
                 {
@@ -53,10 +55,8 @@ namespace Lab4CSharp
                     if (error != null)
                         MessageBox.Show(error, "Could not load products");
                     else
-                    {
-                        dataGridView1.DataSource = _db.Products.Local.ToBindingList();
-                        dataGridView2.DataSource = _db.CategoriiProduse.Local.ToBindingList();
-                    }
+                        dataGridView1.DataSource = products;
+
                     UseWaitCursor = false;
                 }));
             });
@@ -123,31 +123,22 @@ namespace Lab4CSharp
             ? dataGridView1.Columns[selectedColumn].DataPropertyName
             : null;
 
-            
+
             Task.Run(() =>
             {
-                List<Products> result = new List<Products>();
-                using (var db = new StoreDB())
+                List<ProdusAfisat> result = _products.GetProducts();
+                var prop = propertyName != null ? typeof(ProdusAfisat).GetProperty(propertyName) : null;
+
+                if (!string.IsNullOrEmpty(text) && prop != null)
                 {
-                    var prop = propertyName != null ? typeof(Products).GetProperty(propertyName) : null;
-                    if (string.IsNullOrEmpty(text) || propertyName == null)
-                    {
-                        result = db.Products.ToList();
-
-                    }
-                    else
-                    {
-
-                        result = db.Products
-                            .AsEnumerable()
-                            .Where(p =>
-                            {
-                                object value = prop.GetValue(p);
-                                return value != null &&
-                                       value.ToString().IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0;
-                            })
-                            .ToList();
-                    }
+                    result = result
+                        .Where(p =>
+                        {
+                            object value = prop.GetValue(p);
+                            return value != null &&
+                                   value.ToString().IndexOf(text, StringComparison.OrdinalIgnoreCase) >= 0;
+                        })
+                        .ToList();
                 }
 
                 if (IsDisposed) return;
@@ -158,7 +149,7 @@ namespace Lab4CSharp
                 }));
             });
 
-            
+
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -169,6 +160,12 @@ namespace Lab4CSharp
         private void categories_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void salesHistory_Click(object sender, EventArgs e)
+        {
+            using (var form = new SalesHistoryForm())
+                form.ShowDialog();
         }
     }
 }
